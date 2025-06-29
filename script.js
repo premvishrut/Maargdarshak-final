@@ -1,17 +1,12 @@
+async function askQuestion() {
+  const question = document.getElementById("question").value;
 
-function toggleMenu() {
-  const menu = document.getElementById('menu');
-  menu.classList.toggle('hidden');
-}
-
-async function ask() {
-  const question = document.getElementById('question').value;
-  const responseDiv = document.getElementById('response');
-  responseDiv.innerHTML = "Soch rahe hain...";
-  const res = await fetch('/.netlify/functions/maargdarshak', {
-    method: 'POST',
+  const response = await fetch("/.netlify/functions/maargdarshak", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ question }),
   });
-  const data = await res.json();
-  responseDiv.innerHTML = `<p>${data.answer}</p>`;
+
+  const data = await response.json();
+  document.getElementById("answer").innerText = data.answer || data.error || "No answer";
 }
